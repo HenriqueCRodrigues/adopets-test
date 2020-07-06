@@ -35,7 +35,7 @@ class UserRepository
       ]);
 
       if (!auth()->attempt($loginData)) {
-          return ['message' => 'Invalid Credentials'];
+          return ['message' => 'Invalid Credentials', 'status' => 401];
       }
 
       $accessToken = auth()->user()->createToken('authToken')->accessToken;
