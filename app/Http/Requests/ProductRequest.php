@@ -36,7 +36,7 @@ class ProductRequest extends FormRequest
     }
 
     public function validateCategory() {
-        if ((int)$this->request->get('category_id') == 0) 
+        if ((int)$this->request->get('category_id') == 0 && $this->request->get('category_id')) 
         {
             $category = Category::firstOrCreate(['name' => $this->request->get('category_id')]);
             $this->request->set('category_id', $category->id);
