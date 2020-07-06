@@ -15,7 +15,7 @@ class UserRepository
       $accessToken = $user->createToken('authToken')->accessToken;
       \DB::commit();
   
-      return ['X-Access-Token' => $accessToken, 'status' => 200];
+      return ['message' => ['X-Access-Token' => $accessToken], 'status' => 200];
     } catch (\Exception $e)
     {
       \DB::rollback();
