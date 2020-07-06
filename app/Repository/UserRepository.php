@@ -40,7 +40,7 @@ class UserRepository
 
       $accessToken = auth()->user()->createToken('authToken')->accessToken;
 
-      return ['X-Access-Token' => $accessToken, 'status' => 200];
+      return ['message' => ['X-Access-Token' => $accessToken], 'status' => 200];
     } catch (\Exception $e)
     {
       return ['message' => $e->getMessage(), 'status' => 500];
