@@ -21,7 +21,7 @@ class UserController extends Controller
     public function store(UserRequest $request) {
         $user = $this->userRepository->store($request->all());
 
-        return GenericResponse::response($delete);
+        return GenericResponse::response($user);
     } 
     
     public function me() {
@@ -34,12 +34,12 @@ class UserController extends Controller
     {
         $user = $this->userRepository->login($request);
 
-        return GenericResponse::response($delete);
+        return GenericResponse::response($user);
     }
     
     public function logout(Request $request) {
         $logout = $this->userRepository->logout();
 
-        return GenericResponse::response($delete);
+        return GenericResponse::response($logout);
     }   
 }

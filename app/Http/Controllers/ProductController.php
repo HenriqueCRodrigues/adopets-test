@@ -27,7 +27,7 @@ class ProductController extends Controller
     public function update($uuid, ProductRequest $request) {
         $product = $this->productRepository->update($uuid, $request->all());
 
-        return GenericResponse::response($delete);
+        return GenericResponse::response($product);
     }   
     public function findProducts(Request $request) {
         $products = $this->productRepository->findProducts($request);
