@@ -14,11 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('user')->group(function () {
-    Route::post('/store', 'UserController@store');
-    Route::middleware('auth:api')->group(function () {
-        Route::get('/me', 'UserController@me');
-    });
+Route::middleware('auth:api')->prefix('user')->group(function () {
+    Route::get('/me', 'UserController@me');
 });
 
 Route::middleware('auth:api')->prefix('product')->group(function () {
@@ -28,5 +25,7 @@ Route::middleware('auth:api')->prefix('product')->group(function () {
     Route::delete('{uuid}/delete', 'ProductController@delete');
 });
 
-Route::post('/login', 'UserController@login');
+Route::post('login', 'UserController@login');
+Route::post('register', 'UserController@store');
+
 Route::middleware('auth:api')->post('/logout', 'UserController@logout');
