@@ -7,10 +7,16 @@ use App\Traits\HasUuid;
 use App\Traits\HasUser;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Product extends Model
 {
-    use HasUuid, SoftDeletes, HasUser;
+    use HasUuid, SoftDeletes, HasUser, LogsActivity;
+
+    protected static $logName = 'product';
+    protected static $logAttributes = ['*'];
+    protected static $logAttributesToIgnore = ['uuid', 'id', 'user_id'];
+    protected static $recordEvents = ['updated'];
 
     /**
      * The attributes that are mass assignable.

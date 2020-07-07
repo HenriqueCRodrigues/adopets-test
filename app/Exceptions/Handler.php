@@ -36,6 +36,20 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
+        /*
+        \DB::rollback();
+        $properties = array_merge($exception->getTrace()[0]['args'], ['error' => ['message' => $exception->getMessage(), 'line' => $exception->getLine(), 'file' => $exception->getFile()]]);
+
+        \DB::table('activity_log')->insert([
+            'log_name' => 'Error',
+            'description' => $exception->getTrace()[0]['function'],
+            'subject_type' => $exception->getTrace()[0]['class'], 
+            'causer_type' => $exception->getMessage(), 
+            'properties' => json_encode($properties),
+            'created_at' => date('Y/d/m H:i:s'),
+            'updated_at' => date('Y/d/m H:i:s'),
+        ]);*/
+        
         parent::report($exception);
     }
 

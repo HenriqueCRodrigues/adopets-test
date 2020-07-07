@@ -19,13 +19,13 @@ Route::middleware('auth:api')->prefix('user')->group(function () {
 });
 
 Route::middleware('auth:api')->prefix('product')->group(function () {
-    Route::post('store', 'ProductController@store');
-    Route::post('{uuid}/update', 'ProductController@update');
-    Route::post('find', 'ProductController@findProducts');
-    Route::delete('{uuid}/delete', 'ProductController@delete');
+    Route::post('store', 'ProductController@store')->name('product.store');
+    Route::post('{uuid}/update', 'ProductController@update')->name('product.update');
+    Route::post('find', 'ProductController@findProducts')->name('product.find');
+    Route::delete('{uuid}/delete', 'ProductController@delete')->name('product.delete');
 });
 
 Route::post('login', 'UserController@login');
-Route::post('register', 'UserController@store');
+Route::post('register', 'UserController@store')->name('user.store');
 
 Route::middleware('auth:api')->post('/logout', 'UserController@logout');

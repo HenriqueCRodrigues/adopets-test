@@ -8,11 +8,14 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use App\Traits\HasUuid;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
-    use HasUuid, HasApiTokens, Notifiable;
+    use HasUuid, HasApiTokens, Notifiable, LogsActivity;
 
+    protected static $logName = 'user';
+    protected static $logAttributes = ['name', 'email'];
     /**
      * The attributes that are mass assignable.
      *
@@ -31,7 +34,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 
+
     ];
 
     /**
@@ -45,6 +48,8 @@ class User extends Authenticatable
     ];
 
     public function setPasswordAttribute($value){
-        $this->attributes['password'] = Hash::make($value);
+        if ($value) {
+            $this->attributes['password'] = Hash::make($value);
+        }
     }
 }

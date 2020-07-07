@@ -7,20 +7,14 @@ use App\Models\User;
 class UserRepository
 {
   public function store($data) {
-    try {
-      \DB::beginTransaction();
+    \DB::beginTransaction();
 
-      $user = User::create($data);
+    $user = User::create($data);
 
-      $accessToken = $user->createToken('authToken')->accessToken;
-      \DB::commit();
-  
-      return ['message' => ['X-Access-Token' => $accessToken], 'status' => 200];
-    } catch (\Exception $e)
-    {
-      \DB::rollback();
-      return ['message' => $e->getMessage(), 'status' => 500];
-    }
+    $accessToken = $user->createToken('authToken')->accessToken;
+   
+    \DB::commit();
+    return ['message' => ['X-Access-Token' => $accessToken], 'status' => 200];
   }
 
   public function me() {
@@ -28,37 +22,27 @@ class UserRepository
   }
 
   public function login($data) {
-    try {
-      $loginData = $data->validate([
-        'email' => 'email|required',
-        'password' => 'required'
-      ]);
+    $loginData = $data->validate([
+      'email' => 'email|required',
+      'password' => 'required'
+    ]);
 
-      if (!auth()->attempt($loginData)) {
-          return ['message' => 'Invalid Credentials', 'status' => 401];
-      }
-
-      $accessToken = auth()->user()->createToken('authToken')->accessToken;
-
-      return ['message' => ['X-Access-Token' => $accessToken], 'status' => 200];
-    } catch (\Exception $e)
-    {
-      return ['message' => $e->getMessage(), 'status' => 500];
+    if (!auth()->attempt($loginData)) {
+        return ['message' => 'Invalid Credentials', 'status' => 401];
     }
+
+    $accessToken = auth()->user()->createToken('authToken')->accessToken;
+
+    return ['message' => ['X-Access-Token' => $accessToken], 'status' => 200];
   }
 
   public function logout() {
-    try {
-        if (\Auth::check()) {
-        $token = \Auth::user()->token();
-        $token->revoke();
-        return ['message' => 'User is logout', 'status' => 200];
-      }
-      
-      return ['message' => 'Invalid request', 'status' => 422];
-    } catch (\Exception $e)
-    {
-      return ['message' => $e->getMessage(), 'status' => 500];
+    if (\Auth::check()) {
+      $token = \Auth::user()->token();
+      $token->revoke();
+      return ['message' => 'User is logout', 'status' => 200];
     }
+    
+    return ['message' => 'Invalid request', 'status' => 422];
   }
 }
