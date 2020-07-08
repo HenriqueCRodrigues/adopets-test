@@ -1,4 +1,4 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"><img src="https://res.cloudinary.com/programathor/image/upload/c_fit,h_200,w_200/v1577378201/g6f91cmmtewwl8wqtzzw.png" width="150"></p>
 
 <p align="center">
 <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
@@ -7,60 +7,134 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Desafio Adopets
+Foi realizado a criação de uma API <br>
+Para emular o projeto, basta seguir os requisitos básico do Laravel 7.x, que se encontra no link: https://laravel.com/docs/7.x
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Após isso, utilizar os comandos<br>
+"php artisan migrate"<br>
+"php artisan passport:install --uuids --force" => yes<br>
+"php artisan serve"<br>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### Dependências do Projeto
+```
+"php": "^7.2.5",
+"fideloper/proxy": "^4.2",
+"fruitcake/laravel-cors": "^1.0",
+"guzzlehttp/guzzle": "^6.3",
+"laravel/framework": "^7.0",
+"laravel/passport": "^9.3",
+"laravel/tinker": "^2.0",
+"nesbot/carbon": "^2.36",
+"spatie/laravel-activitylog": "^3.14",
+"webpatser/laravel-uuid": "^3.0"
+```
 
-## Learning Laravel
+```
++--------+----------+---------------------------+----------------+-----------------------------------------------------+------------+
+| Domain | Method   | URI                       | Name           | Action                                              | Middleware |
++--------+----------+---------------------------+----------------+-----------------------------------------------------+------------+
+|        | GET|HEAD | /                         |                | Illuminate\Routing\ViewController                   | web        |
+|        | POST     | api/login                 |                | App\Http\Controllers\UserController@login           | api        |
+|        | POST     | api/logout                |                | App\Http\Controllers\UserController@logout          | api        |
+|        |          |                           |                |                                                     | auth:api   |
+|        | POST     | api/product/find          | product.find   | App\Http\Controllers\ProductController@findProducts | api        |
+|        |          |                           |                |                                                     | auth:api   |
+|        | POST     | api/product/store         | product.store  | App\Http\Controllers\ProductController@store        | api        |
+|        |          |                           |                |                                                     | auth:api   |
+|        | DELETE   | api/product/{uuid}/delete | product.delete | App\Http\Controllers\ProductController@delete       | api        |
+|        |          |                           |                |                                                     | auth:api   |
+|        | POST     | api/product/{uuid}/update | product.update | App\Http\Controllers\ProductController@update       | api        |
+|        |          |                           |                |                                                     | auth:api   |
+|        | POST     | api/register              | user.store     | App\Http\Controllers\UserController@store           | api        |
+|        | GET|HEAD | api/user/me               |                | App\Http\Controllers\UserController@me              | api        |
+|        |          |                           |                |                                                     | auth:api   |
++--------+----------+---------------------------+----------------+-----------------------------------------------------+------------+
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### api/login 
+```
+Rota do tipo POST, retorna o token para realizar as requisições que necessitam autenticação 
+Exemplo do Response abaixo
+```
+<img src="https://i.imgur.com/5VXrtEY.png">
+<br>
 
-## Laravel Sponsors
+#### api/logout 
+```
+Rota do tipo POST, invalida o token
+Exemplo do Response abaixo
+```
+<img src="https://i.imgur.com/X9BVfPZ.png">
+<br>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+#### api/product/find 
+```
+Rota do tipo POST, que busca todos os produtos que um usuário cadastrou
+Para filtrar a busca deve passar como query path a variavel 'q'.
+Exemplo: api/product/find?q=capa
+Para navegar pela paginação e quantidade de produto, 
+deve utilizar como query path as variaveis 'page' e 'per_page' respectivamente
+Exemplo do Response abaixo
+```
+<img src="https://i.imgur.com/gpfzfyd.png">
+<br>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
+
+
+#### api/product/store 
+```
+Rota do tipo POST, armazena o produto e o retorna com sua identificação.
+Exemplo do Response abaixo
+```
+<img src="https://i.imgur.com/IagQ2LA.png">
+<br>
+
+#### api/product/{uuid}/delete 
+```
+Rota do tipo DELETE, exclui o produto especificado na url e retorna uma mensagem da ação.
+Exemplo do Response abaixo
+```
+<img src="https://i.imgur.com/fZSFJhB.png">
+<br>
+
+
+#### api/product/{uuid}/update
+```
+Rota do tipo POST, atualiza o produto especificado na url e retorna uma mensagem da ação.
+Exemplo do Response abaixo
+```
+<img src="https://i.imgur.com/hEZ90oi.png">
+<br>
+
+
+#### api/register
+```
+Rota do tipo POST, armazena um usuário e retorna um token para autenticação.
+Exemplo do Response abaixo
+```
+<img src="https://i.imgur.com/VYkXjZQ.png">
+<br>
+
+
+#### api/user/me
+```
+Rota do tipo GET, retorna as informações de cadastro do usuário.
+Exemplo do Response abaixo
+```
+<img src="https://i.imgur.com/0fKl5c2.png">
+<br><br>
+
+#### Test Driven Development
+```
+Comando para o TDD no laravel
+"php artisan test"
+Exemplo do Test executado
+```
+
+<img src="https://i.imgur.com/sLi9a7y.png">
 
 ## Contributing
 
